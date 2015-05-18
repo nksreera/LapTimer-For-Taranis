@@ -93,6 +93,11 @@ end
 
 local function has_reached_threshold()
 
+  local thr = getValue(77)
+  if thr < -900 then 
+    return false
+  end
+
 -- Check S2 (80) min lap time limit
 local s2_val = getValue(80)
 s2_val = s2_val + 1224
@@ -107,7 +112,8 @@ lcd.drawText(115,55,math.floor(s2_val/100) .. "s", SMLSIZE)
     lcd.drawText(95,55,"a2", SMLSIZE)
     local signal_val = getValue(monitoring_channel)
     lcd.drawText(80,2, signal_val .. "v", SMLSIZE)
-    return signal_val < monitoring_channel_threshold and signal_val > 1
+    local rssi = getValue(200)
+    return signal_val < monitoring_channel_threshold and rssi > 35
   else
     monitoring_channel = 99
     monitoring_channel_threshold = 200
